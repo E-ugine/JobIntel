@@ -33,3 +33,16 @@ class Job(Base):
         UniqueConstraint("source", "external_id", name="uq_source_external"),
         Index("ix_jobs_title_company", "title", "company"),
     )
+
+class ScrapeLog(Base):
+    __tablename__ = "scrape_logs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    task_id = Column(String(120), index=True)
+    status = Column(String(50))                # success / failed
+    created = Column(Integer, default=0)
+    updated = Column(Integer, default=0)
+    skipped = Column(Integer, default=0)
+    started_at = Column(DateTime, server_default=func.now())
+    finished_at = Column(DateTime)
+    duration = Column(Float)    

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>JobIntel Dashboard</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1>📊 JobIntel Analytics</h1>
+  </header>
+
+  <!-- ──────────── METRICS CARDS ──────────── -->
+  <section class="stats">
+    <div class="card">
+      <h2>Total Runs</h2>
+      <p>{{ stats.total_runs }}</p>
+    </div>
+    <div class="card">
+      <h2>Avg Duration (s)</h2>
+      <p>{{ stats.avg_duration_sec }}</p>
+    </div>
+    <div class="card">
+      <h2>Total Created</h2>
+      <p>{{ stats.total_created }}</p>
+    </div>
+    <div class="card">
+      <h2>Total Updated</h2>
+      <p>{{ stats.total_updated }}</p>
+    </div>
+  </section>
+
+  <!-- ──────────── CHART CONTAINERS ──────────── -->
+  <div class="chart-container">
+    <canvas id="runsChart" height="100"></canvas>
+  </div>
+
+  <div class="chart-container">
+    <canvas id="durationChart" height="80"></canvas>
+  </div>
+
+  <!-- ──────────── SCRIPTS ──────────── -->
+  <script>
+    const logs = JSON.parse('{{ logs | tojson | safe }}');
+
+    // Bar chart data
+    const labels = logs.map(l => new Date(l.started_at).toLocaleString());
+    const created = logs.map(l => l.created);
+    const updated = logs.map(l => l.updated);
+    const skipped = logs.map(l => l.skipped);
+    const durations = logs.map(l => l.duration);
+
+    // ─── Stacked Bar: Job Counts ───
+    const runsCtx = document.getElementById('runsChart').getContext('2d');
+    new Chart(runsCtx, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [
+          { label: 'Created', data: created, backgroundColor: 'rgba(75,192,192,0.6)' },
+          { label: 'Updated', data: updated, backgroundColor: 'rgba(153,102,255,0.6)' },
+          { label: 'Skipped', data: skipped, backgroundColor: 'rgba(255,159,64,0.6)' }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: 'top' } },
+        scales: { x: { stacked: true }, y: { stacked: true } }
+      }
+    });
+
+    // ─── Line Chart: Average Duration ───
+    const durationCtx = document.getElementById('durationChart').getContext('2d');
+    new Chart(durationCtx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Run Duration (s)',
+            data: durations,
+            borderColor: 'rgba(255,255,255,0.8)',
+            backgroundColor: 'rgba(255,255,255,0.2)',
+            tension: 0.3,
+            fill: true,
+            pointRadius: 4,
+            pointHoverRadius: 6
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { position: 'top' } },
+        scales: {
+          y: {
+            title: { display: true, text: 'Duration (seconds)', color: '#cbd5e1' },
+            grid: { color: 'rgba(255,255,255,0.1)' },
+            ticks: { color: '#cbd5e1' }
+          },
+          x: {
+            ticks: { color: '#cbd5e1' },
+            grid: { color: 'rgba(255,255,255,0.05)' }
+          }
+        }
+      }
+    });
+
+    // Auto-refresh every minute
+    setTimeout(() => window.location.reload(), 60000);
+  </script>
+</body>
+</html>
