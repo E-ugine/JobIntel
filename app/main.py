@@ -8,6 +8,9 @@ from app.api.dashboard import router as dashboard_router
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi import Request
+from app.api import insights
+from app.api import dashboard
+from app.api import scraper
 
 
 app = FastAPI(title="JobIntel API", version="1.0")
@@ -18,7 +21,10 @@ app.include_router(trends_router, prefix="/api", tags=["Trends"])
 app.include_router(scrape_router, prefix="/api", tags=["Scraper"])
 app.include_router(stats_router, prefix="/api", tags=["Analytics"])
 app.include_router(dashboard_router, tags=["Dashboard"])
+app.include_router(dashboard.router)
+app.include_router(scraper.router)
 
 # Static & template setup
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
+app.include_router(insights.router)
