@@ -16,6 +16,12 @@
   <a href="/insights">Market Insights</a>
 </nav>
 
+<!-- ──────────── CONTROL PANEL ──────────── -->
+<section class="controls">
+  <button id="triggerScrapeBtn">🚀 Run Scraper Now</button>
+  <span id="scrapeStatus" class="status-msg"></span>
+</section>
+
 
   <!-- ──────────── METRICS CARDS ──────────── -->
   <section class="stats">
@@ -114,6 +120,32 @@
 
     // Auto-refresh every minute
     setTimeout(() => window.location.reload(), 60000);
+
+    // ─── Trigger Scrape Button Logic ───
+document.getElementById("triggerScrapeBtn").addEventListener("click", async () => {
+  const statusEl = document.getElementById("scrapeStatus");
+  statusEl.textContent = "⏳ Triggering scrape...";
+  statusEl.style.color = "#facc15";
+
+  try {
+    const res = await fetch("/api/scrape", { method: "POST" });
+    if (res.ok) {
+      statusEl.textContent = "✅ Scrape started successfully!";
+      statusEl.style.color = "#22c55e";
+    } else {
+      statusEl.textContent = "⚠️ Failed to trigger scrape.";
+      statusEl.style.color = "#ef4444";
+    }
+  } catch (err) {
+    console.error(err);
+    statusEl.textContent = "❌ Error connecting to API.";
+    statusEl.style.color = "#ef4444";
+  }
+
+  // Reset after 5 seconds
+  setTimeout(() => (statusEl.textContent = ""), 5000);
+});
+
   </script>
 </body>
 </html>

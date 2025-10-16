@@ -32,7 +32,7 @@ celery.conf.beat_schedule = {
     # Every 6 hours: run scraper with limit 30
     "run-scraper-every-6-hours": {
         "task": "run_remoteok_scraper",
-        "schedule": crontab(minute=0, hour="*/6"),
+        "schedule": crontab(minute=0, hour="*/1"),
         "args": (30,),
     },
     # Optional: once a day at midnight
