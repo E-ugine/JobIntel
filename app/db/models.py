@@ -1,0 +1,35 @@
+from sqlalchemy import (
+    Column, Integer, String, Float, DateTime, func, UniqueConstraint, Index, Text
+)
+from sqlalchemy.orm import declarative_base
+
+Base = declarative_base()
+
+class Job(Base):
+    __tablename__ = "jobs"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    # Core identity
+    source = Column(String(50), nullable=False, index=True)       # e.g., "RemoteOK"
+    external_id = Column(String(512), nullable=False, index=True) # canonical URL or stable key
+
+    # Display / analytics fields
+    title = Column(String(300), nullable=False, index=True)
+    company = Column(String(200), index=True)
+    location = Column(String(120), index=True)
+    tech_stack = Column(Text)   # can be long, comma-separated
+    job_type = Column(String(60))   # "Full Time" / "Contract" / etc.
+    salary = Column(String(60))     # "$80k–$120k" (string form for now)
+    logo = Column(String(512))
+    apply_url = Column(String(512))
+
+    # Temporal
+    date_posted = Column(DateTime)              # from site, may be None
+    created_at = Column(DateTime, server_default=func.now())  # when *we* scraped
+    updated_at = Column(DateTime, onupdate=func.now())
+
+    __table_args__ = (
+        UniqueConstraint("source", "external_id", name="uq_source_external"),
+        Index("ix_jobs_title_company", "title", "company"),
+    )

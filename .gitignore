@@ -1,0 +1,67 @@
+# ────────────── Python Basics ──────────────
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# ────────────── FastAPI & App ──────────────
+# Local settings & secrets
+.env
+.env.*
+
+# Compiled or temporary files
+*.log
+*.pot
+*.pyc
+*.pyo
+*.db
+*.sqlite3
+
+# Coverage / Testing
+.coverage
+htmlcov/
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+
+# ────────────── Alembic ──────────────
+# Migration cache & logs (keep migration scripts!)
+migrations/versions/__pycache__/
+migrations/__pycache__/
+
+# ────────────── IDE & Editor Files ──────────────
+# VSCode / JetBrains / MacOS
+.vscode/
+.idea/
+.DS_Store
+
+# ────────────── Playwright ──────────────
+# Browser binaries & cache
+playwright/.cache/
+playwright-report/
+test-results/
+*.zip
+*.png
+*.jpg
+*.jpeg
+
+# ────────────── Logs & Temporary Outputs ──────────────
+logs/
+tmp/
+*.tmp
+*.bak
+
+# ────────────── OS & Misc ──────────────
+Thumbs.db
+ehthumbs.db
+Desktop.ini
