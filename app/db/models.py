@@ -9,7 +9,7 @@ class Job(Base):
     __tablename__ = "jobs"
 
     id = Column(Integer, primary_key=True, index=True)
-    source = Column(String(50), nullable=False, index=True)     ## e.g "RemoteOK"
+    source = Column(String(50), nullable=False, index=True)
     external_id = Column(String(512), nullable=False, index=True)
     title = Column(String(300), nullable=False, index=True)
     company = Column(String(200), index=True)
@@ -21,7 +21,7 @@ class Job(Base):
     apply_url = Column(String(512))
     date_posted = Column(DateTime) 
     created_at = Column(DateTime, server_default=func.now())
-    updated_at = Column(DateTime, onupdate=func.now())
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now(), default=func.now())
 
     __table_args__ = (
         UniqueConstraint("source", "external_id", name="uq_source_external"),
