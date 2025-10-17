@@ -24,7 +24,7 @@ app.include_router(dashboard_router, tags=["Dashboard"])
 app.include_router(dashboard.router)
 app.include_router(scraper.router)
 
-# Static & template setup
+## Static & templates
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
 app.include_router(insights.router)

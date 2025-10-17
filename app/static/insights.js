@@ -1,17 +1,4 @@
-// -----------------------------
-// 📊 JobIntel Insights Dashboard
-// -----------------------------
-//
-// Handles all dynamic behavior of the /insights page:
-//  - Fetches analytics data from backend
-//  - Renders charts using Chart.js
-//  - Updates summary cards
-//  - Responds to user filters & refresh events
-//
 
-// ========== Helper Functions ==========
-
-// Fetch JSON from API with error handling
 async function fetchJSON(url) {
   try {
     const res = await fetch(url);
@@ -23,13 +10,11 @@ async function fetchJSON(url) {
   }
 }
 
-// ========== Summary Section ==========
 
 async function loadSummary() {
   try {
     const data = await fetchJSON("/api/insights/summary");
 
-    // Update summary cards
     document.getElementById("total_jobs").textContent = data.total_jobs ?? "–";
     document.getElementById("companies").textContent = data.unique_companies ?? "–";
     document.getElementById("skills").textContent = data.unique_skills ?? "–";
@@ -51,17 +36,13 @@ async function renderCharts() {
   const skillFilter = document.getElementById("skillFilter").value.trim().toLowerCase();
 
   try {
-    // Clear existing charts
     document.querySelectorAll("canvas").forEach(c => c.remove());
-
-    // Recreate canvases dynamically
     const containers = document.querySelectorAll(".chart-container");
     containers.forEach(container => {
       const canvas = document.createElement("canvas");
       container.appendChild(canvas);
     });
 
-    // Fetch data in parallel
     const [skills, titles, salary, sources, freq] = await Promise.all([
       fetchJSON("/api/insights/top-skills"),
       fetchJSON("/api/insights/top-titles"),
@@ -70,18 +51,13 @@ async function renderCharts() {
       fetchJSON("/api/insights/post-frequency"),
     ]);
 
-    // Filter skills if user typed a search term
     const filteredSkills = skillFilter
       ? skills.filter(s => s.skill.toLowerCase().includes(skillFilter))
       : skills;
 
-    // Chart color palette
     const colors = ["#22d3ee", "#a78bfa", "#f472b6", "#38bdf8", "#c084fc"];
-
-    // Utility: handle "no data"
     const safe = (data, msg) => (data.length ? data : [{ label: msg, count: 0 }]);
 
-    // 🧠 Top 10 Skills
     new Chart(document.querySelectorAll("canvas")[0], {
       type: "bar",
       data: {
@@ -95,7 +71,7 @@ async function renderCharts() {
       options: { animation: { duration: 1000 }, plugins: { legend: { display: false } } }
     });
 
-    // 💼 Top Job Titles
+    // Top Job Titles
     new Chart(document.querySelectorAll("canvas")[1], {
       type: "bar",
       data: {
@@ -109,7 +85,7 @@ async function renderCharts() {
       options: { indexAxis: "y", animation: { duration: 1000 }, plugins: { legend: { display: false } } }
     });
 
-    // 💰 Salary Range Breakdown
+    // Salary Range Breakdown
     new Chart(document.querySelectorAll("canvas")[2], {
       type: "bar",
       data: {
@@ -123,7 +99,7 @@ async function renderCharts() {
       options: { animation: { duration: 1000 }, plugins: { legend: { display: false } } }
     });
 
-    // 🌍 Job Sources Pie Chart
+    //Job Sources Pie Chart
     new Chart(document.querySelectorAll("canvas")[3], {
       type: "pie",
       data: {
@@ -136,7 +112,7 @@ async function renderCharts() {
       options: { animation: { duration: 1500 } }
     });
 
-    // ⏳ Posting Frequency (Line Chart)
+    // Posting Frequency (Line Chart)
     const cutoffData = freq.slice(-Number(days));
     new Chart(document.querySelectorAll("canvas")[4], {
       type: "line",
@@ -160,30 +136,22 @@ async function renderCharts() {
   } catch (err) {
     console.error("❌ Failed to render charts:", err);
   } finally {
-    loadingEl.style.display = "none"; // Hide loading spinner
+    loadingEl.style.display = "none";
   }
 }
 
-// ========== Filters & Refresh Logic ==========
-
-// Date Range filter
 document.getElementById("dateRange").addEventListener("change", renderCharts);
 
-// Skill Filter (debounced)
 document.getElementById("skillFilter").addEventListener("input", () => {
   clearTimeout(window.filterTimeout);
   window.filterTimeout = setTimeout(renderCharts, 500);
 });
 
-// Manual Refresh button
 document.getElementById("refreshBtn").addEventListener("click", () => {
   loadSummary();
   renderCharts();
 });
 
-// ========== Initialization ==========
-
-// Show loading spinner while loading
 (async () => {
   const loadingEl = document.getElementById("loading");
   loadingEl.style.display = "block";

@@ -1,19 +1,28 @@
 from fastapi import APIRouter, Query, Depends
 from sqlalchemy.orm import Session
-from sqlalchemy import select
+from sqlalchemy import select, func
 from app.db.session import SessionLocal
 from app.db.models import Job
 from app.api.schemas import JobListResponse, JobBase
 
 router = APIRouter()
 
-# Dependency: DB session per request
 def get_db():
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
+
+def apply_filters(query, source: str | None, company: str | None, tech: str | None):
+    """Helper function to apply filters to any query."""
+    if source:
+        query = query.where(Job.source.ilike(f"%{source}%"))
+    if company:
+        query = query.where(Job.company.ilike(f"%{company}%"))
+    if tech:
+        query = query.where(Job.tech_stack.ilike(f"%{tech}%"))
+    return query
 
 @router.get("/jobs", response_model=JobListResponse)
 def list_jobs(
@@ -26,15 +35,12 @@ def list_jobs(
 ):
     """List and filter jobs with pagination."""
     query = select(Job)
+    count_query = select(func.count()).select_from(Job)
 
-    if source:
-        query = query.where(Job.source.ilike(f"%{source}%"))
-    if company:
-        query = query.where(Job.company.ilike(f"%{company}%"))
-    if tech:
-        query = query.where(Job.tech_stack.ilike(f"%{tech}%"))
-
-    total = db.query(Job).count()
+    query = apply_filters(query, source, company, tech)
+    count_query = apply_filters(count_query, source, company, tech)
+    
+    total = db.execute(count_query).scalar()
     jobs = db.execute(query.offset(offset).limit(limit)).scalars().all()
 
     return {"count": total, "results": jobs}

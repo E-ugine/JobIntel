@@ -34,7 +34,6 @@ def upsert_jobs(db: Session, jobs: Iterable[Dict[str, Any]]) -> dict:
             skipped += 1
             continue
 
-        # Find existing
         existing = db.execute(
             select(Job).where(Job.source == source, Job.external_id == external_id)
         ).scalar_one_or_none()

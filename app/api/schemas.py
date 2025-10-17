@@ -17,7 +17,7 @@ class JobBase(BaseModel):
     date_posted: Optional[datetime]
 
     class Config:
-        orm_mode = True  # allows reading directly from SQLAlchemy objects
+        orm_mode = True  ## allows reading directly from SQLAlchemy objects
 
 
 class JobListResponse(BaseModel):

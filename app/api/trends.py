@@ -17,7 +17,6 @@ def get_db():
 def top_skills(db: Session = Depends(get_db), limit: int = 10):
     """
     Aggregate top skills from the tech_stack field.
-    Works even if some rows are NULL or missing commas.
     """
     sql = text("""
         SELECT skill, COUNT(*) AS count FROM (

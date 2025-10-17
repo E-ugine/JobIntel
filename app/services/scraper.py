@@ -20,11 +20,11 @@ def scrape_remoteok(limit: int = 30):
 
         for row in rows.all()[:limit]:
             try:
-                # --- BASIC DETAILS ---
+                ## BASIC DETAILS
                 title = row.locator("td.position h2").inner_text().strip()
                 company = row.locator("td.company h3").inner_text().strip()
 
-                # --- TAGS / TECH STACK ---
+                ## TAGS / TECH STACK
                 tags_list = []
                 try:
                     tag_elements = row.locator("td.tags a, td.tags span, div.tags a")
@@ -37,7 +37,7 @@ def scrape_remoteok(limit: int = 30):
                     tags_list = []
                 tech_stack = ", ".join(tags_list) if tags_list else None
 
-                # --- DATE POSTED ---
+                ## DATE POSTED
                 try:
                     date_attr = row.locator("td.time time").get_attribute("datetime")
                     date_posted = (
@@ -48,7 +48,7 @@ def scrape_remoteok(limit: int = 30):
                 except Exception:
                     date_posted = datetime.now()
 
-                # --- LINKS ---
+                ## LINKS
                 job_anchor = row.locator("td.position a.preventLink").first
                 href = job_anchor.get_attribute("href") if job_anchor else None
                 job_url = f"https://remoteok.com{href}" if href else None
@@ -60,7 +60,7 @@ def scrape_remoteok(limit: int = 30):
                     else None
                 )
 
-                # --- LOGO ---
+                ## LOGO
                 logo = None
                 try:
                     if row.locator("td.has-logo img").count() > 0:
@@ -71,7 +71,7 @@ def scrape_remoteok(limit: int = 30):
                 except Exception:
                     logo = None
 
-                # --- JOB TYPE ---
+                #JOB TYPE
                 job_type = next(
                     (
                         tag
@@ -81,11 +81,9 @@ def scrape_remoteok(limit: int = 30):
                     "N/A",
                 )
 
-                # --- SALARY EXTRACTION (Fixed) ---
-                                # --- SALARY EXTRACTION (Improved Universal Catch) ---
+                ## SALARY 
                 salary = None
                 try:
-                    # 1️⃣ Look for a dedicated salary cell
                     salary_cell = row.locator("td.salary, td.tags span, td.tags a")
                     if salary_cell.count() > 0:
                         for element in salary_cell.all():
@@ -99,8 +97,6 @@ def scrape_remoteok(limit: int = 30):
                             if match:
                                 salary = match.group(0)
                                 break
-
-                    # 2️⃣ Fallback: search full row HTML for salary patterns
                     if not salary:
                         html = row.inner_html()
                         match = re.search(
@@ -110,10 +106,7 @@ def scrape_remoteok(limit: int = 30):
                         if match:
                             salary = match.group(0)
                 except Exception as e:
-                    print(f"⚠️ Salary extraction failed for {title}: {e}")
-
-
-                # --- FINAL STRUCTURED JOB RECORD ---
+                    print(f"Salary extraction failed for {title}: {e}")
                 jobs.append(
                     {
                         "title": title,
@@ -131,10 +124,10 @@ def scrape_remoteok(limit: int = 30):
                 )
 
             except Exception as e:
-                print("⚠️ Error parsing a job row:", e)
+                print(" Error parsing a job row:", e)
                 continue
 
         browser.close()
 
-    print(f"✅ Scraped {len(jobs)} job listings successfully.")
+    print(f"Scraped {len(jobs)} job listings successfully.")
     return jobs

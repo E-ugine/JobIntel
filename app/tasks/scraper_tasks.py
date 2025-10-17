@@ -15,7 +15,7 @@ def run_remoteok_scraper(limit: int = 30):
     db.commit()
 
     try:
-        print("🚀 Starting background scrape task...")
+        print(" Starting background scrape task...")
         result = run_scrape_and_ingest(limit)
 
         finish_time = datetime.utcnow()

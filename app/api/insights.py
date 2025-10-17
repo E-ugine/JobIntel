@@ -7,7 +7,6 @@ from app.db.models import Job
 
 router = APIRouter(prefix="/api/insights", tags=["Insights"])
 
-# 🧾 Dataset Summary
 @router.get("/summary")
 def get_summary(db: Session = Depends(get_db)):
     total_jobs = db.query(func.count(Job.id)).scalar()
@@ -23,7 +22,7 @@ def get_summary(db: Session = Depends(get_db)):
     }
 
 
-# 🧠 Top 10 In-Demand Skills
+##Top 10 In-Demand Skills
 @router.get("/top-skills")
 def top_skills(db: Session = Depends(get_db)):
     all_stacks = db.query(Job.tech_stack).filter(Job.tech_stack.isnot(None)).all()
@@ -39,7 +38,7 @@ def top_skills(db: Session = Depends(get_db)):
     return [{"skill": s, "count": c} for s, c in sorted_skills]
 
 
-# 💼 Most Common Job Titles
+##Most Common Job Titles
 @router.get("/top-titles")
 def top_titles(db: Session = Depends(get_db)):
     titles = (
@@ -52,7 +51,7 @@ def top_titles(db: Session = Depends(get_db)):
     return [{"title": t, "count": c} for t, c in titles]
 
 
-# 💰 Salary Range Breakdown
+## Salary Range Breakdown
 @router.get("/salary-ranges")
 def salary_ranges(db: Session = Depends(get_db)):
     all_salaries = db.query(Job.salary).filter(Job.salary.isnot(None)).all()
@@ -81,7 +80,7 @@ def salary_ranges(db: Session = Depends(get_db)):
     return [{"range": r, "count": c} for r, c in ranges.items()]
 
 
-# 🌍 Remote Job Distribution by Source
+## Remote Job Distribution by Source
 @router.get("/job-sources")
 def job_sources(db: Session = Depends(get_db)):
     sources = (
@@ -93,7 +92,7 @@ def job_sources(db: Session = Depends(get_db)):
     return [{"source": s, "count": c} for s, c in sources]
 
 
-# ⏳ Posting Frequency Over Time
+## Posting Frequency Over Time
 @router.get("/post-frequency")
 def post_frequency(db: Session = Depends(get_db)):
     cutoff = datetime.now() - timedelta(days=30)
