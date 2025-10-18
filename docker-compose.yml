@@ -1,0 +1,76 @@
+services:
+  db:
+    image: postgres:15
+    container_name: jobintel_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: jobintel
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./.postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d jobintel"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: jobintel_redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build: .
+    container_name: jobintel_api
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    command: >
+      bash -c "echo ' Running Alembic migrations...' &&
+               python -m alembic upgrade head &&
+               echo '✅ Migrations complete. Starting API...' &&
+               uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+    shm_size: "1gb"
+
+  worker:
+    build: .
+    container_name: jobintel_worker
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      api:
+        condition: service_started
+    command: >
+      bash -c "echo '🧵 Starting Celery worker...' &&
+               celery -A app.core.celery_app.celery worker --loglevel=info"
+    shm_size: "1gb"
+
+  beat:
+    build: .
+    container_name: jobintel_beat
+    env_file: .env
+    depends_on:
+      worker:
+        condition: service_started
+    command: >
+      bash -c "echo ' Starting Celery Beat scheduler...' &&
+               celery -A app.core.celery_app.celery beat --loglevel=info"
+    shm_size: "1gb"

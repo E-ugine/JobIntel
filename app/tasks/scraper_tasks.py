@@ -4,18 +4,20 @@ from app.services.run_once import run_scrape_and_ingest
 from app.db.session import SessionLocal
 from app.db.models import ScrapeLog
 
+
 @celery.task(name="run_remoteok_scraper")
 def run_remoteok_scraper(limit: int = 30):
     """Background scraping task with run logging."""
     db = SessionLocal()
     start_time = datetime.utcnow()
     task_id = run_remoteok_scraper.request.id
+
     log_entry = ScrapeLog(task_id=task_id, status="running", started_at=start_time)
     db.add(log_entry)
     db.commit()
 
     try:
-        print(" Starting background scrape task...")
+        print("🚀 Starting background scrape task...")
         result = run_scrape_and_ingest(limit)
 
         finish_time = datetime.utcnow()
