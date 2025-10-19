@@ -190,7 +190,7 @@ Acknowledgements
 This project stands on the shoulders of open-source excellence:
 FastAPI, Celery, Redis, SQLAlchemy, Docker, and Playwright — the pillars of modern backend automation.
 
-Built with ❤️ by Eugine Agolla (Charity Wanjiku)
+Built with ❤️ by Eugine Agolla
 
 agollaeugine@gmail.com
 
