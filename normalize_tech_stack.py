@@ -9,4 +9,4 @@ for job in db.query(Job).all():
 db.commit()
 db.close()
 
-print("✅ Tech stacks normalized successfully.")
+print("Tech stacks normalized successfully.")
