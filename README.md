@@ -17,7 +17,7 @@
 
 ---
 
-## 🧠 Overview
+## Overview
 
 **JobIntel** is an intelligent system that continuously scrapes, cleans, and visualizes job market trends in real time.  
 It empowers researchers, hiring teams, and career platforms with live insights into the ever-evolving tech landscape.
@@ -36,7 +36,7 @@ It empowers researchers, hiring teams, and career platforms with live insights i
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 | Layer           | Description                                   |
 |-----------------|-----------------------------------------------|
@@ -49,7 +49,7 @@ It empowers researchers, hiring teams, and career platforms with live insights i
 
 ---
 
-## ⚙️ Tech Stack
+## Tech Stack
 
 | Category | Tools |
 |-----------|-------|
@@ -92,24 +92,23 @@ Runs migrations
 Launches API, Worker, Beat, DB, and Redis
 
 Access the API: http://localhost:8000
-
 Check docs: http://localhost:8000/docs
+Acess dashboard: http://localhost:8000/dashbord
+Acess insights: http://localhost:8000/insights
 
-4️⃣ Trigger a Scrape
-curl -X POST http://localhost:8000/api/scrape
+4️⃣ Trigger a Scrape from the dahsbord
 
 5️⃣ Access Dashboards
 URL	Description
 /dashboard	Monitor scrape jobs & system performance
 /insights	Visualize top skills, salaries, and job titles
-🚀 Deployment (Railway)
 
+Deployment (Railway):
 Create a new Railway project → “Deploy from GitHub”
 
 Add PostgreSQL and Redis plugins
 
 Configure three services:
-
 Service	Command
 API	bash -c "python -m alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"
 Worker	celery -A app.core.celery_app.celery worker --loglevel=info
@@ -123,78 +122,74 @@ REDIS_URL → from Railway Redis
 
 SECRET_KEY → set manually
 
-✅ Done — JobIntel now self-updates live on the cloud.
+✅Done — JobIntel now self-updates live on the cloud.
 
-🔗 API Endpoints
-Endpoint	Method	Description
-/api/scrape	POST	Trigger a new scrape cycle
-/api/jobs	GET	Fetch all job listings
-/api/insights	GET	View analytics summary
-/api/stats	GET	Returns scrape statistics
-/api/health	GET	Health check
-🧾 Example Response
-GET /api/insights
+##API Endpoints
+
+| Endpoint | Method | Description |
+|-----------|---------|-------------|
+| `/api/scrape` | **POST** | Trigger a new scrape cycle |
+| `/api/jobs` | **GET** | Fetch all job listings |
+| `/api/insights` | **GET** | View analytics summary (top skills, salary trends, titles) |
+| `/api/stats` | **GET** | Retrieve scrape statistics and run metadata |
+| `/api/health` | **GET** | Check API health and connectivity status |
+
+---
+
+###Example Response — `/api/insights`
+
+```json
 {
   "top_skills": ["Python", "React", "AWS"],
   "avg_salary_usd": 96000,
   "trending_titles": ["Data Engineer", "Backend Developer"]
 }
 
-🧩 Troubleshooting
+
+Troubleshooting
 Issue	Fix
 Playwright executable missing	Update Docker base image → mcr.microsoft.com/playwright/python:v1.55.0-jammy
 UndefinedTable “jobs”	Run migrations → alembic upgrade head
 Beat not scheduling	Ensure RedBeat is enabled in celery_app.py
 Worker silent	Verify Redis connection & Celery import paths
-🧭 Roadmap
 
- Add more job boards (LinkedIn, Wellfound, AngelList)
-
- ML-powered skill clustering
-
- Historical salary trend visualization
-
- Token-based API authentication
-
- Deploy full frontend dashboard
-
- Integration tests & CI/CD pipeline
+Roadmap:
+Add more job boards (LinkedIn, Wellfound, AngelList)
+ML-powered skill clustering
+Historical salary trend visualization
+Token-based API authentication
+Deploy full frontend dashboard
+Integration tests & CI/CD pipeline
 
 🖼️ Demo (Preview)
 Insights Dashboard	Scrape Monitor
 <img src="./assets/dashboard-insights.png" width="400"/>	<img src="./assets/dashboard-monitor.png" width="400"/>
+
+
 🤝 Contributing
 
 We welcome contributions — JobIntel thrives on open collaboration.
-
 Fork the repo
-
 Create your feature branch (git checkout -b feature/awesome-idea)
-
 Commit changes (git commit -m 'Add awesome feature')
-
 Push to branch (git push origin feature/awesome-idea)
-
 Open a Pull Request
 
 Suggestions, bug fixes, and new data sources are always appreciated.
 
-🧪 Testing
-
-Run unit tests locally:
-
-pytest -v
+Testing:
+Coming soon
 
 
 Coverage reports coming soon.
 
-📜 License
+License
 
 Distributed under the MIT License.
 See LICENSE
  for more information.
 
-🙌 Acknowledgements
+Acknowledgements
 
 This project stands on the shoulders of open-source excellence:
 FastAPI, Celery, Redis, SQLAlchemy, Docker, and Playwright — the pillars of modern backend automation.
