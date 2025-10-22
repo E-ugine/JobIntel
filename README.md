@@ -162,20 +162,9 @@ Deploy full frontend dashboard
 Integration tests & CI/CD pipeline
 
 ##Demo
+<img src="https://raw.githubusercontent.com/E-ugine/JobIntel/main/assets/dashboard-insights.png" width="600">
+<img src="https://raw.githubusercontent.com/E-ugine/JobIntel/main/assets/dashboard-monitor.png" width="600">
 
-<div align="center">
-  <img src="assets/dashboard-insights.png" alt="Insights Dashboard" width="600">
-  <br/>
-  <em>Insights Dashboard — Visualizes top skills, salaries, and trends</em>
-</div>
-
-<br/>
-
-<div align="center">
-  <img src="assets/dashboard-monitor.png" alt="Scrape Monitor" width="600">
-  <br/>
-  <em>Scrape Monitor — Tracks running scraping jobs and system performance</em>
-</div>
 
 
 
