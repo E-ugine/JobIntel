@@ -138,7 +138,7 @@ SECRET_KEY → set manually
 
 ###Example Response — `/api/insights`
 
-```json
+json
 {
   "top_skills": ["Python", "React", "AWS"],
   "avg_salary_usd": 96000,
