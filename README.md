@@ -161,11 +161,22 @@ Token-based API authentication
 Deploy full frontend dashboard
 Integration tests & CI/CD pipeline
 
-## 🖼️ Demo (Preview)
+##Demo
 
-![Insights Dashboard](https://raw.githubusercontent.com/E-ugine/JobIntel/main/assets/dashboard-insights.png)
-![Scrape Monitor](https://raw.githubusercontent.com/E-ugine/JobIntel/main/assets/dashboard-monitor.png)
-![JobIntel Logo](https://raw.githubusercontent.com/E-ugine/JobIntel/main/assets/jobintel-logo.png)
+<div align="center">
+  <img src="assets/dashboard-insights.png" alt="Insights Dashboard" width="600">
+  <br/>
+  <em>Insights Dashboard — Visualizes top skills, salaries, and trends</em>
+</div>
+
+<br/>
+
+<div align="center">
+  <img src="assets/dashboard-monitor.png" alt="Scrape Monitor" width="600">
+  <br/>
+  <em>Scrape Monitor — Tracks running scraping jobs and system performance</em>
+</div>
+
 
 
 
