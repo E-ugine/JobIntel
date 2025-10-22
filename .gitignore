@@ -54,6 +54,10 @@ test-results/
 *.png
 *.jpg
 *.jpeg
+# Keep Playwright/browser images ignored but allow demo images stored in the repo root `assets/` folder
+!assets/*.png
+!assets/*.jpg
+!assets/*.jpeg
 
 # ────────────── Logs & Temporary Outputs ──────────────
 logs/
