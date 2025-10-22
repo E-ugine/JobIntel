@@ -1,110 +1,89 @@
 <a name="readme-top"></a>
 
-<div align="center"> <img src="./assets/jobintel-logo.png" alt="JobIntel Logo" width="200"> <h1 align="center">JobIntel: </br> The Intelligent Job Market Insights API</h1> </div> <div align="center"> <a href="https://github.com/E-ugine/JobIntel"><img src="https://img.shields.io/badge/GitHub-Repo-000?logo=github&logoColor=white&style=for-the-badge" alt="GitHub Repo"></a> <a href="https://railway.app/"><img src="https://img.shields.io/badge/Deploy-Railway-blue?logo=railway&logoColor=white&style=for-the-badge" alt="Railway Deploy"></a> <a href="https://www.postgresql.org/"><img src="https://img.shields.io/badge/PostgreSQL-DB-316192?logo=postgresql&logoColor=white&style=for-the-badge" alt="PostgreSQL"></a> <a href="https://fastapi.tiangolo.com/"><img src="https://img.shields.io/badge/FastAPI-Backend-009688?logo=fastapi&logoColor=white&style=for-the-badge" alt="FastAPI"></a> <a href="https://redis.io/"><img src="https://img.shields.io/badge/Redis-Broker-D92B2B?logo=redis&logoColor=white&style=for-the-badge" alt="Redis"></a> <a href="https://www.docker.com/"><img src="https://img.shields.io/badge/Docker-Containerized-0db7ed?logo=docker&logoColor=white&style=for-the-badge" alt="Docker"></a> <hr> </div>
+<div align="center">
+  <img src="./assets/jobintel-logo.png" alt="JobIntel Logo" width="180">
+  <h1 align="center">JobIntel<br/>The Intelligent Job Market Insights API</h1>
+</div>
 
-Welcome to JobIntel — your system that continuously scrapes, analyzes, and visualizes job market trends in real-time.
-It’s built to empower researchers, hiring teams, and career platforms with live insights into the ever-evolving tech landscape.
+<div align="center">
+  <a href="https://github.com/E-ugine/JobIntel"><img src="https://img.shields.io/badge/GitHub-Repo-000?logo=github&logoColor=white&style=for-the-badge" alt="GitHub Repo"></a>
+  <a href="https://railway.app/"><img src="https://img.shields.io/badge/Deploy-Railway-blue?logo=railway&logoColor=white&style=for-the-badge" alt="Railway Deploy"></a>
+  <a href="https://www.postgresql.org/"><img src="https://img.shields.io/badge/PostgreSQL-DB-316192?logo=postgresql&logoColor=white&style=for-the-badge" alt="PostgreSQL"></a>
+  <a href="https://fastapi.tiangolo.com/"><img src="https://img.shields.io/badge/FastAPI-Backend-009688?logo=fastapi&logoColor=white&style=for-the-badge" alt="FastAPI"></a>
+  <a href="https://redis.io/"><img src="https://img.shields.io/badge/Redis-Broker-D92B2B?logo=redis&logoColor=white&style=for-the-badge" alt="Redis"></a>
+  <a href="https://www.docker.com/"><img src="https://img.shields.io/badge/Docker-Containerized-0db7ed?logo=docker&logoColor=white&style=for-the-badge" alt="Docker"></a>
+  <hr>
+</div>
 
-✨ Key Features
+---
 
-Automated Job Scraper — Currently collects job listings from RemoteOK and weworkremotely webistes using Playwright.
+## 🧠 Overview
 
-Data Normalization Engine — Cleans and structures unstructured job listings.
+**JobIntel** is an intelligent system that continuously scrapes, cleans, and visualizes job market trends in real time.  
+It empowers researchers, hiring teams, and career platforms with live insights into the ever-evolving tech landscape.
 
-Real-Time Analytics — Tracks skills, salaries, trends, and market shifts.
+> _Transform messy job listings into clean, queryable intelligence — fully automated._
 
-Asynchronous Processing — Powered by Celery workers + Redis.
+### ✨ Key Features
 
-Dockerized Stack — One command to spin up API, Worker, Beat, Postgres & Redis.
+- **Automated Job Scraper** — Collects listings from [RemoteOK](https://remoteok.com) and [WeWorkRemotely](https://weworkremotely.com) via Playwright.  
+- **Data Normalization Engine** — Cleans and structures raw data for analysis.  
+- **Real-Time Analytics** — Tracks skills, salaries, and hiring trends.  
+- **Asynchronous Processing** — Celery workers + Redis broker for fast, non-blocking jobs.  
+- **Self-Updating System** — Beat scheduler automates scraping cycles.  
+- **Dockerized Stack** — One command spins up API, Worker, Beat, Postgres, and Redis.  
+- **Interactive Dashboards** — Explore top skills, salaries, and hiring velocity in real time.
 
-Interactive Dashboards — See top skills, salary ranges, and hiring velocity.
+---
 
-Self-Updating System — Beat scheduler keeps your dataset fresh — hands-free.
+## 🏗️ Architecture
 
-Transform messy job listings into clean, queryable intelligence — fully automated.
+| Layer           | Description                                   |
+|-----------------|-----------------------------------------------|
+| **FastAPI**     | REST API & dashboards                         |
+| **Celery Worker** | Handles async scraping & ingestion            |
+| **Celery Beat** | Schedules scraping cycles                     |
+| **Redis (RedBeat)** | Message broker & persistent Beat scheduler   |
+| **PostgreSQL**  | Stores structured job data                    |
+| **Docker Compose** | Orchestrates all services locally & in cloud  |
 
-<!-- 🔥 News
-<div class="scrollable"> <ul> <li><strong>[2025, Oct 17]</strong>: <em>JobIntel officially containerized!</em> Full Docker Compose setup now includes API, Celery Worker, Beat, PostgreSQL, and Redis — deployed seamlessly to Railway.</li> <li><strong>[2025, Oct 10]</strong>: Added RedBeat scheduler for persistent task orchestration in Redis.</li> <li><strong>[2025, Oct 5]</strong>:Insights API launched — visualize top skills, salaries, and job title trends.</li> </ul> </div>
-Table of Contents -->
+---
 
-<a href="#overview"> Overview</a>
+## ⚙️ Tech Stack
 
-<a href="#architecture"> Architecture</a>
+| Category | Tools |
+|-----------|-------|
+| **Backend** | FastAPI, SQLAlchemy, Alembic |
+| **Async Tasks** | Celery, Redis, RedBeat |
+| **Scraping** | Playwright |
+| **Database** | PostgreSQL |
+| **Infra** | Docker, Railway |
+| **Frontend (Dashboards)** | Jinja2, Chart.js, Tailwind CSS |
 
-<a href="#stack">Tech Stack</a>
+---
 
-<a href="#quick-start">Quick Start</a>
+## ⚡ Quick Start (Dockerized)
 
-<a href="#deployment">Deployment (Railway)</a>
+### Prerequisites
+- Docker & Docker Compose installed  
+- Git  
+- Internet connection (Playwright needs Chromium drivers)
 
-<a href="#api-endpoints">API Endpoints</a>
-
-<a href="#troubleshooting">Troubleshooting</a>
-
-<a href="#roadmap">Roadmap</a>
-
-<a href="#acknowledgements">Acknowledgements</a>
-
-<span id="overview"/>
-Overview
-
-Job data today is scattered across dozens of platforms, inconsistent in structure, and hard to analyze.
-JobIntel automates the full data pipeline:
-
-Scrapes jobs from RemoteOK (and other sources coming soon).
-
-Cleans and standardizes the data with SQLAlchemy.
-
-Stores it in PostgreSQL.
-
-Processes asynchronously via Celery & Redis.
-
-Exposes insights through a FastAPI REST interface and dashboard.
-
-It’s a self-updating backend that never sleeps.
-
-<span id="architecture"/>
- Architecture
-Layer	Description
-FastAPI	REST API & dashboards
-Celery Worker	Handles async scraping & ingestion
-Celery Beat	Schedules scraping cycles
-Redis (RedBeat)	Message broker & Beat scheduler
-PostgreSQL	Persistent structured data storage
-Docker Compose	Orchestrates all services for local & cloud environments
-<span id="stack"/>
-Tech Stack
-Category	Tools
-Backend	FastAPI, SQLAlchemy, Alembic
-Async Tasks	Celery, Redis, RedBeat
-Scraping	Playwright
-Database	PostgreSQL
-Infra	Docker, Railway
-Frontend (Dashboards)	Jinja2, Chart.js, TailwindCSS
-<span id="quick-start"/>
-⚡ Quick Start (Dockerized)
-Prerequisites
-
-Docker & Docker Compose installed
-
-Git
-
-Internet (Playwright pulls Chromium drivers)
-
-1. Clone
+### 1️⃣ Clone the Repo
+```bash
 git clone https://github.com/E-ugine/JobIntel.git
 cd JobIntel
 
-2. Configure Environment
+2️⃣ Configure Environment
 
-Create .env:
+Create a .env file:
 
 DATABASE_URL=postgresql://postgres:postgres@db:5432/jobintel
 REDIS_URL=redis://redis:6379/0
 SECRET_KEY=your-secret-key
 ENV=dev
 
-3. Build & Run
+3️⃣ Build & Run
 docker compose up --build
 
 
@@ -112,18 +91,18 @@ Runs migrations
 
 Launches API, Worker, Beat, DB, and Redis
 
-Accessible at: http://localhost:8000
+Access the API: http://localhost:8000
 
-4. Trigger a Scrape
+Check docs: http://localhost:8000/docs
+
+4️⃣ Trigger a Scrape
 curl -X POST http://localhost:8000/api/scrape
 
-5. Access Dashboards
+5️⃣ Access Dashboards
 URL	Description
-/dashboard	Monitor scrape jobs & performance
-/insights	Visualize top skills, salaries, titles
-<span id="deployment"/>
-Deployment (Railway)
-Setup
+/dashboard	Monitor scrape jobs & system performance
+/insights	Visualize top skills, salaries, and job titles
+🚀 Deployment (Railway)
 
 Create a new Railway project → “Deploy from GitHub”
 
@@ -131,22 +110,12 @@ Add PostgreSQL and Redis plugins
 
 Configure three services:
 
-API →
+Service	Command
+API	bash -c "python -m alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"
+Worker	celery -A app.core.celery_app.celery worker --loglevel=info
+Beat	celery -A app.core.celery_app.celery beat --loglevel=info
 
-bash -c "python -m alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000}"
-
-
-Worker →
-
-celery -A app.core.celery_app.celery worker --loglevel=info
-
-
-Beat →
-
-celery -A app.core.celery_app.celery beat --loglevel=info
-
-
-Map env vars:
+Map Environment Variables:
 
 DATABASE_URL → from Railway Postgres
 
@@ -154,44 +123,83 @@ REDIS_URL → from Railway Redis
 
 SECRET_KEY → set manually
 
-Done — JobIntel now self-updates live on the cloud.
+✅ Done — JobIntel now self-updates live on the cloud.
 
-<span id="api-endpoints"/>
-API Endpoints
+🔗 API Endpoints
 Endpoint	Method	Description
-/api/scrape	POST	Triggers a new scrape cycle
+/api/scrape	POST	Trigger a new scrape cycle
 /api/jobs	GET	Fetch all job listings
 /api/insights	GET	View analytics summary
 /api/stats	GET	Returns scrape statistics
 /api/health	GET	Health check
-<span id="troubleshooting"/>
-Troubleshooting
+🧾 Example Response
+GET /api/insights
+{
+  "top_skills": ["Python", "React", "AWS"],
+  "avg_salary_usd": 96000,
+  "trending_titles": ["Data Engineer", "Backend Developer"]
+}
+
+🧩 Troubleshooting
 Issue	Fix
-Playwright Executable Missing	Update Docker base image to mcr.microsoft.com/playwright/python:v1.55.0-jammy
-UndefinedTable “jobs”	Run migrations: alembic upgrade head
+Playwright executable missing	Update Docker base image → mcr.microsoft.com/playwright/python:v1.55.0-jammy
+UndefinedTable “jobs”	Run migrations → alembic upgrade head
 Beat not scheduling	Ensure RedBeat is enabled in celery_app.py
-Worker silent	Check Redis connection and include path in Celery config
-<span id="roadmap"/>
-Roadmap
+Worker silent	Verify Redis connection & Celery import paths
+🧭 Roadmap
 
-Add more job boards (WeWorkRemotely, LinkedIn, Wellfound)
+ Add more job boards (LinkedIn, Wellfound, AngelList)
 
-ML-powered skill clustering
+ ML-powered skill clustering
 
-Historical salary trends visualization
+ Historical salary trend visualization
 
-Token-based API access
+ Token-based API authentication
 
-Deploy frontend dashboard
+ Deploy full frontend dashboard
 
-<span id="acknowledgements"/>
-Acknowledgements
+ Integration tests & CI/CD pipeline
+
+🖼️ Demo (Preview)
+Insights Dashboard	Scrape Monitor
+<img src="./assets/dashboard-insights.png" width="400"/>	<img src="./assets/dashboard-monitor.png" width="400"/>
+🤝 Contributing
+
+We welcome contributions — JobIntel thrives on open collaboration.
+
+Fork the repo
+
+Create your feature branch (git checkout -b feature/awesome-idea)
+
+Commit changes (git commit -m 'Add awesome feature')
+
+Push to branch (git push origin feature/awesome-idea)
+
+Open a Pull Request
+
+Suggestions, bug fixes, and new data sources are always appreciated.
+
+🧪 Testing
+
+Run unit tests locally:
+
+pytest -v
+
+
+Coverage reports coming soon.
+
+📜 License
+
+Distributed under the MIT License.
+See LICENSE
+ for more information.
+
+🙌 Acknowledgements
 
 This project stands on the shoulders of open-source excellence:
 FastAPI, Celery, Redis, SQLAlchemy, Docker, and Playwright — the pillars of modern backend automation.
 
 Built with ❤️ by Eugine Agolla
+📧 agollaeugine@gmail.com
 
-agollaeugine@gmail.com
-
-<a href="#readme-top">⬆️ Back to top</a>
+⬆️ Back to top
