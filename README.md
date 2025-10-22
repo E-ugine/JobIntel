@@ -164,8 +164,8 @@ Integration tests & CI/CD pipeline
 🖼️ Demo (Preview)
 Insights Dashboard | Scrape Monitor
 
-![Insights Dashboard](assets/dashboard-insights.png)
-![Scrape Monitor](assets/dashboard-monitor.png)
+![Insights Dashboard](https://raw.githubusercontent.com/E-ugine/JobIntel/main/assets/dashboard-insights.png)
+![Scrape Monitor](https://raw.githubusercontent.com/E-ugine/JobIntel/main/assets/dashboard-monitor.png)
 
 
 🤝 Contributing
