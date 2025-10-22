@@ -162,8 +162,10 @@ Deploy full frontend dashboard
 Integration tests & CI/CD pipeline
 
 🖼️ Demo (Preview)
-Insights Dashboard	Scrape Monitor
-<img src="./assets/dashboard-insights.png" width="400"/>	<img src="./assets/dashboard-monitor.png" width="400"/>
+Insights Dashboard | Scrape Monitor
+
+![Insights Dashboard](assets/dashboard-insights.png)
+![Scrape Monitor](assets/dashboard-monitor.png)
 
 
 🤝 Contributing
