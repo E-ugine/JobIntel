@@ -163,11 +163,10 @@ Integration tests & CI/CD pipeline
 
 ## 🖼️ Demo (Preview)
 
-### Insights Dashboard
 ![Insights Dashboard](https://raw.githubusercontent.com/E-ugine/JobIntel/main/assets/dashboard-insights.png)
-
-### Scrape Monitor
 ![Scrape Monitor](https://raw.githubusercontent.com/E-ugine/JobIntel/main/assets/dashboard-monitor.png)
+![JobIntel Logo](https://raw.githubusercontent.com/E-ugine/JobIntel/main/assets/jobintel-logo.png)
+
 
 
 🤝 Contributing
